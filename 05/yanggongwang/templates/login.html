@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ygw</title>
+</head>
+<body>
+<p>
+    <a href="/user/add">添加用户</a></br>
+    <a href="/user/disable">禁用账号</a></br>
+    <a href="/user/changepwd">修改密码</a></br>
+    <a href="/user/del">删除账号</a></br>
+    <a href="/user/list">所有账号</a></br>
+</p>
+</br>
+</br>
+
+{% if error %}
+<p style="color: red">{{ error }}</p>
+{% endif %}
+<form action="/login" method="post">
+    <input type="text" name="username" value="{{username}}">
+    <input type="text" name="password">
+    <input type="submit" value="提交">
+</form>
+
+
+</body>
+</html>

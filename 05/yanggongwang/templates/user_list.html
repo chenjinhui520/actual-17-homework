@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<body>
+<p>
+    <a href="/user/add">添加用户</a></br>
+    <a href="/user/disable">禁用账号</a></br>
+    <a href="/user/changepwd">修改密码</a></br>
+    <a href="/user/del">删除账号</a></br>
+    <a href="/user/list">所有账号</a></br>
+</p>
+</br>
+</br>
+<table border="1px" width="400">
+    <thead>
+        <tr>
+            <th>用户名</th>
+            <th>密码</th>
+            <th>年龄</th>
+            <th>职务</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in user_list %}
+        <tr>
+            <td>{{user['name']}}</td>
+            <td>{{user['passwd']}}</td>
+            <td>{{user['age']}}</td>
+            <td>{{user['job']}}</td>
+            <td>
+                <a href="/user/disable/">禁用账号</a>
+                <a href="/user/changepwd/">修改密码</a>
+                <a href="/user/del/">删除账号</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
