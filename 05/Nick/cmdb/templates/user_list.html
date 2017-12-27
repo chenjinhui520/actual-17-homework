@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>用户列表</title>
+</head>
+<body>
+<a href="/user/add/">添加用户</a>
+<table border="1px" width="400">
+    <thead>
+        <tr>
+            <th>用户名</th>
+            <th>密码</th>
+            <th>年龄</th>
+            <th>职务</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for user in user_list %}
+        <tr>
+            <td>{{user['name']}}</td>
+            <td>{{user['passwd']}}</td>
+            <td>{{user['age']}}</td>
+            <td>{{user['job']}}</td>
+            <td>
+                <a href="/user/update/?username={{user['name']}}">更新</a>
+                <a href="/user/delete/?username={{user['name']}}">删除</a>
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+</body>
+</html>
