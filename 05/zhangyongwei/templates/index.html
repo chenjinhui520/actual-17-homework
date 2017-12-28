@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+    </head>
+
+    <body>
+        <h3>Hello Reboot!</h3>
+        <a href="/?topn=5">top5</a>
+        <a href="/?topn=10">top10</a>
+        <a href="/?topn=15">top15</a>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Count</th>
+                    <th>IP</th>
+                    <th>URL</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in lines %}
+                    <tr>
+                        <td>{{ line[1] }}</td>
+                        <td>{{ line[0][0] }}</td>
+                        <td>{{ line[0][1] }}</td>
+                        <td>{{ line[0][2] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

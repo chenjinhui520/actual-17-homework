@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+    </head>
+
+    <body>
+        <h3>Hello Reboot!</h3>
+        <a href="/user/list/">用户列表</a>
+        <a href="/user/add/">添加用户</a>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>密码</th>
+                    <th>职务</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in userlist %}
+                    <tr>
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.age }}</td>
+                        <td>{{ user.passwd }}</td>
+                        <td>{{ user.job }}</td>
+                        <td>
+                            <a href="/user/update?username={{ user.name }}">修改</a>
+                            <a href="/user/delete?username={{ user.name }}">删除</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
