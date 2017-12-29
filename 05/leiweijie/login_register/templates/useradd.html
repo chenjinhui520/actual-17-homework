@@ -1,0 +1,28 @@
+{% extends 'basic/base.html' %}
+
+{% block body %}
+<div class='col-md-8 col-sm-offset-2 text-center'>
+	<form action="{{url_for('.useradd')}}" method='post'>
+		{% if error %}
+			<p style='color:red' >{{error}}</p>
+		{% endif %}
+		<div>
+			<label> 用户名：</label>
+			<input type="text" name='username' />
+		</div>
+		<div>
+			<label>密 码 ：</label>
+			<input type="password" name='userpasswd' />
+		</div>
+		<div>
+			<label>工 作 ：</label>
+			<input type="text" name='job' />
+		</div>
+		<div>
+			<label>年 龄 ：</label>
+			<input type="text" name='age' />
+		</div>
+		<input type="submit" value='添加' />
+	</form>		
+</div>
+{% endblock %}

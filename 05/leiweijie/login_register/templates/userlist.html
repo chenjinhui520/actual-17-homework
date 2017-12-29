@@ -1,0 +1,28 @@
+{% extends 'basic/base.html' %}
+
+{% block body %}		
+		{% if error %}
+			<p style='color:red' >{{error}}</p>
+		{% endif %}
+	<table class='table table-bordered'>
+		<tr>
+			<th>用户名</th>
+			<th>密码</th>
+			<th>工作</th>
+			<th>年龄</th>
+			<th>操作</th>
+		</tr>
+		{% for user in userlist %}
+		<tr>
+			<td>{{user.get('name')}}</td>
+			<td>{{user.get('passwd')}}</td>
+			<td>{{user.get('job')}}</td>
+			<td>{{user.get('age')}}</td>
+			<td><a href="{{url_for('.useradd')}}"><button type="button" class="btn btn-primary">添加</button></a>
+				<a href="{{url_for('.userupdate')}}?userupdate={{user.get('name')}}"><button type="button" class="btn btn-primary">更新</button></a>
+				<a href="{{url_for('.userdel')}}?deluser={{user.get('name')}}" name=user><button type="button" class="btn btn-danger">删除</button></a>
+			</td>
+		</tr>
+		{% endfor %}
+	</table>
+{% endblock %}

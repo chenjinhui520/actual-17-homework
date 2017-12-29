@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <!-- 引入 bootstrap -->
+    <link rel="stylesheet" type="text/css" href="../static/bootstrap-3.3.7/css/bootstrap.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="../static/js/jquery-3.2.1.min.js"></script>
+
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="../static/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+    <!--页面缩放-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{title}}</title>
+	{% block head %}
+	{% endblock %}
+</head>
+<body>
+	{% include 'basic/header.html' %}
+	{% block body %}
+	{% endblock %}
+</body>
+</html>
