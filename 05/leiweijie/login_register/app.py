@@ -82,12 +82,14 @@ def userupdate():
         user_up = request.args.get('userupdate')
         return render_template('userupdate.html',user_up=user_up)
     if request.method=='POST':
-        username = request.form.get('username')
+        user_up = request.form.get('username')
         age = request.form.get('age')
         job = request.form.get('job')
         userpasswd = request.form.get('userpasswd')
-        user.user_update(username, userpasswd, job, age)
-    return redirect('/user/userlist')
+        is_ok,error = user.user_update(user_up, userpasswd, job, age)
+        if is_ok:
+            return render_template('userupdate.html',user_up=user_up,error=error)
+        return redirect('/user/userlist')
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=5000, debug=True)
