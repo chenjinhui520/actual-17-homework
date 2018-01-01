@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <head>
+        <style type="text/css">
+            a {text-decoration: none}
+        </style>
+    </head>
+	<body>
+		<div align="center">
+			<form  "  method="post">
+				<fieldset  style="width:540px;" >
+					<legend>Life is short, you need Python</legend>
+
+                        Welcome back! {{ current_user }}
+
+                    <table border="1">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Commment</th>
+                                <th>Time</th>
+                                <th>Opration</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        {% for title, comments in current_user_data.items() %}
+                            <tr>
+                                <td>{{ title }}</td>
+                            {% for comment in comments %}
+                                <td>{{ comment }}</td>
+                            {% endfor %}
+                                <td>
+                                    <a href="/user/delete/?cuser={{ current_user }}&dtitle={{ title }}">Delete</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                    </table>
+                    <div align="right">
+                        <a href="/test/?cuser={{ current_user }}" style="font-size:8px;">Add</a>
+                        <a href="/signout/?cuser={{ current_user }}" style="font-size:8px;">Sign out</a>
+                    </div>
+
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>

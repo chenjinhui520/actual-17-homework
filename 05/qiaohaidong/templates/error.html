@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    <head>
+        <style type="text/css">
+            a {text-decoration: none}
+        </style>
+    </head>
+	<body>
+		<div align="center">
+			<form action="/login/"  method="post">
+				<fieldset  style="width:300px; " >
+					<legend>Life is short, you need Python</legend>
+                    <font size="2" color="red">{{ current_user }} has logged out, please log in again!</font>
+                    <br>
+                    <div align="right">
+                        <a href="http://127.0.0.1:8081/" style="font-size:8px;">Home?</a>
+                        or
+                        <a href="http://127.0.0.1:8081/login/" style="font-size:8px;">Login?</a>
+                    </div>
+				</fieldset>
+			</form>
+		</div>
+	</body>
+</html>
