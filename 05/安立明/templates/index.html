@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+
+<a href="/logout" style="color: blue">退出登录</a>
+
+<center><h1>登录后的IndexPage</h1></center>
+
+<row class="concontainer col-md-6 col-md-offset-3">
+<table class="table table-striped">
+    <h4>用户列表 <button class="btn btn-primary col-md-offset-8" data-toggle="modal" data-target="#myModal">添加用户</button></h4>
+
+    <tr>
+        <th>用户名</th>
+        <th>密码</th>
+        <th>性别</th>
+        <th>年龄</th>
+        <th>操作</th>
+
+    </tr>
+    {% for user in user_list %}
+    <tr>
+        <td>{{ user.name }}</td>
+        <td>{{ user.passwd }}</td>
+        <td>{{ user.sex }}</td>
+        <td>{{ user.age }}</td>
+        <td>
+            <div class="form-contral">
+            <button class="btn btn-primary btn-sm modify_user_btn" modify_data="{{ user.name }}">修改</button>
+            <button class="btn btn-danger btn-sm del_user_btn" del_data="{{ user.name }}">删除</button>
+            </div>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</row>
+<!-- Button trigger modal
+<button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+  Launch demo modal
+</button>
+-->
+<!-- Add Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">添加用户</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="add-user-form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+              <input type="text" name='username' class="form-control" placeholder='username'>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" name='upassword' class="form-control"  placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">年龄</label>
+            <div class="col-sm-3 ">
+              <input type="text" name='age' class="form-control" placeholder='age'>
+            </div>
+            <label class="col-sm-2 control-label col-md-offset-2">性别</label>
+            <div class="col-sm-2">
+              <input type="text" name='sex' class="form-control" placeholder='sex'>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="add-user-btn">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Modify Modal -->
+<div class="modal fade " id="modify_Modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">修改</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" id="modifyz-user-form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-10">
+              <input type="text" name='username' class="form-control" placeholder='username'>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+              <input type="password" name='upassword' class="form-control"  placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">年龄</label>
+            <div class="col-sm-3 ">
+              <input type="text" name='age' class="form-control" placeholder='age'>
+            </div>
+            <label class="col-sm-2 control-label col-md-offset-2">性别</label>
+            <div class="col-sm-2">
+              <input type="text" name='sex' class="form-control" placeholder='sex'>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="update-user-btn">更新</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.js"></script>
+<script>
+
+    $('.del_user_btn').click(function () {
+        var del_user = $(this).attr('del_data')
+        swal({
+				  title: "确定删除用户"+del_user+"吗？",
+				  text: "删除后将无法修复！",
+				  type: "warning",
+				  showCancelButton: true,
+				  confirmButtonColor: "#DD6B55",
+				  confirmButtonText: "确定删除！",
+				  closeOnConfirm: false
+				},
+				function(){
+                    $.ajax({
+                        type:'GET',
+                        url:'/deleteuser',
+                        data:{'ned_delete':del_user},
+                        dataType:'json',
+                        success:function (res) {
+                            if(res.status !=0 ){
+                                swal('删除失败', res.errmsg, 'error')
+                            }else{
+                                swal("删除成功", "", "success")
+                                window.location.reload()
+                            }
+                }
+                })
+    })
+         })
+
+    $('#add-user-btn').click(function () {
+        var user_info = $('#add-user-form').serialize()
+        $.ajax({
+            type:'POST',
+            url:'/register',
+            data:user_info,
+            dataType:'json',
+            success:function(res){
+                if(res.status != 0) {
+                    $('#myModal').modal('hide')
+                    swal('添加失败', res.errmsg, 'error')
+                } else {
+                    $('#myModal').modal('hide')
+                    swal("添加成功", "", "success")
+                    window.location.reload()
+                }
+
+            }
+        })
+ })
+
+    $('.modify_user_btn').click(function () {
+        $('#modify_Modal').modal('show')
+        var uname = $(this).attr('modify_data')
+       $.ajax({
+           type :'GET',
+           url:'/modify_user',
+           data:{'username':uname},
+           dataType:'json',
+           success:function (res) {
+                $('#modifyz-user-form').find("[name='username']").val(res.name)
+                $('#modifyz-user-form').find("[name='upassword']").val(res.passwd)
+                $('#modifyz-user-form').find("[name='sex']").val(res.sex)
+                $('#modifyz-user-form').find("[name='age']").val(res.age)
+           }
+       })
+    })
+
+    $('#update-user-btn').click(function () {
+        var user_info = $('#modifyz-user-form').serialize()
+        $.ajax({
+            type:'POST',
+            url:'/modify_user',
+            data:user_info,
+            dataType:'json',
+            success:function(res){
+                if(res.status != 0) {
+                    $('#modify_Modal').modal('hide')
+                    swal('更新失败', res.errmsg, 'error')
+                } else {
+                    $('#modify_Modal').modal('hide')
+                    swal("更新成功", "", "success")
+                    window.location.reload()
+                }
+
+            }
+        })
+ })
+</script>
+
+</body>
+</html>

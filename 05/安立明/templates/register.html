@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link href="https://cdn.bootcss.com/sweetalert/1.1.3/sweetalert.min.css" rel="stylesheet">
+
+<head>
+    <meta charset="UTF-8">
+    <title>注册</title>
+</head>
+<body>
+<center><h1 style="color: blue">注册界面</h1></center>
+{% if error %}
+<center><h2 style="color: red">{{ error }}</h2></center>
+{% endif %}
+<div class="row col-md-6 col-md-offset-3" style="background: blanchedalmond">
+  <div class="col-md-6 col-md-offset-3">
+      <form class="form-horizontal" id="reg-user-form">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">用户名</label>
+            <div class="col-sm-6">
+              <input type="text" name='username' class="form-control" placeholder='username'>
+            </div>
+          </div>
+          <div class="form-group">
+            <label  class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-6">
+              <input type="password" name='upassword' class="form-control"  placeholder="Password">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">年龄</label>
+            <div class="col-sm-3 ">
+              <input type="text" name='age' class="form-control" placeholder='age'>
+          </div>
+          </div>
+           <div class="form-group">
+              <label class="col-sm-2 control-label">性别</label>
+              <div class="col-sm-3">
+              <input type="text" name='sex' class="form-control" placeholder='sex'></div>
+           </div>
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="button" class="btn btn-default" id="reg-user-btn">提交</button>
+            </div>
+          </div>
+        </form>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdn.bootcss.com/sweetalert/1.1.2/sweetalert.min.js"></script>
+
+<script>
+    $('#reg-user-btn').click(function () {
+        var user_info1 = $('#reg-user-form').serialize()
+        $.ajax({
+            type:'POST',
+            url:'/register',
+            data:user_info1,
+            dataType:'json',
+            success:function(res){
+                if(res.status != 0) {
+                    $('#myModal').modal('hide')
+                    swal('注册失败', res.errmsg, 'error')
+                } else {
+                    $('#myModal').modal('hide')
+                    swal("注册成功", "", "success")
+                    //window.location.reload()
+                    self.location   ='/'
+                }
+            }
+        })
+    })
+</script>
+
+</body>
+</html>
