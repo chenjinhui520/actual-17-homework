@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+			<meta charset="utf-8">
+			<title>日志文件</title>
+		</head>
+		<body>
+			<a href="/userinfo/">用户信息</a>
+			<a href="/logfile/top/5/">TOP5</a>
+        	<a href="/logfile/top/15/">TOP15</a>
+        	<a href="/logfile/top/20/">TOP20</a>
+			<h3>{{Title}}</h3>
+			<table border = '1'>
+				<thead>
+					<tr>
+						<th>IP</th>
+						<th>URL</th>
+						<th>Status</th>
+						<th>Times</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for i in Top_list %}
+					<tr>
+						<th>{{i[0][0]}}</th>
+						<th>{{i[0][1]}}</th>
+						<th>{{i[0][2]}}</th>
+						<th>{{i[1]}}</th>
+					</tr>
+					{% endfor %}
+				</tbody>
+		</body>
+	</html>
