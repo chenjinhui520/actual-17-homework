@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>修改密码</title>
+</head>
+<body>
+        {% for msg in get_flashed_messages() %}
+        <span>{{ msg }}</span>
+        {% endfor %}
+        <br>
+    <form action="/user/changepwd/" method="post">
+        用户ID：<input type="text" name="uid">
+        原密码：<input type="password" name="old_passwd">
+        新密码：<input type="password" name="new_passwd">
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title> Hello Nick </title>
+    {% endif %}
+
+</head>
+<body>
+    {% for content in contents %}
+        <h1>{{ content }}</h1>
+    {% endfor %}
+    <a href="/user/list/">用户列表</a>
+</body>
+</html>
