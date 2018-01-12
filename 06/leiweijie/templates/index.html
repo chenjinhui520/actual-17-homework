@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>{{ title }}</title>
+    {% else %}
+        <title> Hello Nick </title>
+    {% endif %}
+
+</head>
+<body>
+    {% for content in contents %}
+        <h1>{{ content }}</h1>
+    {% endfor %}
+</body>
+</html>
