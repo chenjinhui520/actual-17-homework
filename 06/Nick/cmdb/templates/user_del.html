@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>删除用户</title>
+</head>
+<body>
+    <form action="/user/delete/?username={{ username }}" method="post">
+        <!--询问确定删除用户？-->
+        {% if username %}
+        <span style="color:red">确定删除“{{ username }}”用户？</span>
+        <input type="submit" value="删除"/>
+        {% endif %}
+        <!--用户删除失败提示！-->
+        {% if user %}
+        <span style="color:red">删除“{{ user }}”用户失败！</span>
+        <a href="/user/list/">返回</a>
+        {% endif %}
+    </form>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>更新用户</title>
+</head>
+<body>
+    <form action="/user/update/?username={{ username }}&uid={{ user_dict['id'] }}" method="POST">
+        {% if username %}
+        <span>更新"{{ username }}"用户信息:</span>
+        {% endif %}
+        {% if error %}
+        <span style="color:red">{{ error }}</span>
+        {% endif %}
+        年龄:
+        <input type="text" name="age" value="{{ user_dict['age'] }}"/>
+        密码:
+        <input type="password" name="password" value="{{ user_dict['password'] }}"/>
+        职务:
+        <input type="job" name="job" value="{{ user_dict['job'] }}" />
+        <input type="submit" value="更新"/>
+    </form>
+</body>
+</html>
