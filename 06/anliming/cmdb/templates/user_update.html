@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>更新用户</title>
+</head>
+<body>
+    {% if _user %}
+    <span> 更新"{{_user['username']}}"用户信息： </span>
+    {% endif %}
+    {% if error %}
+    <p style="color:red">{{ error }}</p>
+    {% endif %}
+    <form action="/user/update/" method="post">
+        密码：<input type="text" name="passwd" value="{{ _user['password'] }}" >
+        年龄：<input type="text" name="age" value="{{ _user['age'] }}">
+        职务：<input type="text" name="job" value="{{ _user['job'] }}">
+        <input type="hidden" name="uid" value="{{ _user['id'] }}">
+        <input type="submit" value="提交">
+    </form>
+</body>
+</html>

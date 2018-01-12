@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Reboot</title>
+    </head>
+
+    <body>
+        {% for msg in get_flashed_messages() %}
+        <span>{{ msg }}</span>
+        {% endfor %}
+        欢迎：{{ session.user.username }}
+        <a href="/logs/">日志列表</a>
+        <a href="/user/add/">用户添加</a>
+        <a href="/logout/">登出</a>
+        <table border="1" width="400px">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>密码</th>
+                    <th>职务</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in user_list %}
+                <tr>
+                    <td>{{ user['id'] }}</td>
+                    <td>{{ user['username'] }}</td>
+                    <td>{{ user.get('age') }}</td>
+                    <!--<td>{{ user.password }}</td>-->
+                    <td>******</td>
+                    <td>{{ user['job'] }}</td>
+                    <td>
+                        <a href="/user/update/?uid={{ user['id'] }}">更新</a>
+                        <a href="/user/delete/?username={{ user['username'] }}">删除</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
