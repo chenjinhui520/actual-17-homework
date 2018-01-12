@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>日志</h1>
+    <form  method=post>
+        <input type=text name=log  placeholder="Top 10?">
+        <br>
+        <p>
+            <input type=submit name="search" value=Search>
+            <input type=submit name="cancel" value=Cancel>
+        </p>
+    </form>
+
+
+{% endblock %}

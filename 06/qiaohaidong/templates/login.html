@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>登陆</h1>
+
+  <form  method=post>
+      <input type=text name=username  placeholder="Username">
+      <br>
+      <input type=password name=password  placeholder="Password">
+    <p>
+        <a href={{ url_for('index') }}>返回</a>
+        <input type=submit value=登陆>
+    </p>
+  </form>
+{% endblock %}

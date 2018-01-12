@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+{% block body %}
+    {% if username == 'admin' %}
+        <h1>你好，admin!</h1>
+        <a href={{ url_for('log') }}>日志</a>
+        <a href={{ url_for('register', name='admin') }}>添加</a>
+        <a href={{ url_for('signout', username=username) }}>登出</a>
+        <table border="1">
+        <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>职业</th>
+            <th>操作</th>
+        </tr>
+
+        {% for users in user_dict  %}
+            <tr>
+                {% for value in users %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+                <td>
+                    <a href="/user/admin/change/{{ users[0] }}/">修改密码</a>
+                    <a href="/user/admin/update/{{ users[0] }}/">更新</a>
+                    <a href="/delete/{{ users[0] }}/">删除</a>
+                </td>
+
+             </tr>
+
+        {% endfor %}
+
+        </table>
+    {% else %}
+        <h1>What do you want?</h1>
+        <table border="1">
+        <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>职业</th>
+        </tr>
+        <tr>
+            <td>{{ username }}</td>
+            <td>{{ user_dict['age'] }}</td>
+            <td>{{ user_dict['job'] }}</td>
+        </tr>
+        </table>
+        <br>
+        <a href="/change/{{ username }}/">[1] 修改密码</a>
+        <br>
+        <a href="/update/{{ username }}/">[2] 更新信息</a>
+        <br>
+        <a href="/signout/{{ username }}/">[3] 登出账号</a>
+        <br>
+        <a href="/logout/{{ username }}/">[4] 注销账号</a>
+    {% endif %}
+{% endblock %}

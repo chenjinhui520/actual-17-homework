@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+{% block body %}
+    <a href="{{ url_for('log') }}">返回</a>
+    <table border="1">
+        <tr>
+            <th>No.</th>
+            <th>IP</th>
+            <th>URL</th>
+            <th>Status</th>
+            <th>Count</th>
+        </tr>
+
+        {% for tmp in log_list %}
+            <tr>
+                {% for value in tmp %}
+                    <td>{{ value }}</td>
+                {% endfor %}
+             </tr>
+
+        {% endfor %}
+    </table>
+{% endblock %}

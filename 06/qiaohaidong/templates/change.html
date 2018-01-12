@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>Change password</h1>
+
+  <form  method=post>
+      <input type=password name=cupassword  placeholder="Current Password">
+      <br>
+      <input type=password name=nepassword  placeholder="New Password" >
+      <br>
+      <input type=password name=repassword  placeholder="Retype Password" >
+      <p>
+          <input type=submit name="change" value=Change>
+          <input type=submit name="cancel" value=Cancel>
+      </p>
+  </form>
+{% endblock %}s

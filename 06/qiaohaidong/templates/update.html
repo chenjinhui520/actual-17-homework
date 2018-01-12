@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block body %}
+    <h1>更新用户信息!</h1>
+
+    <form  method=post>
+        姓名：<input type="text" name="username"  readonly="readonly" value="{{ user_dict['name'] }}" >
+        <br>
+        年龄：<input type="text" name="age"  value="{{ user_dict['age'] }}" >
+        <br>
+        职位：<input type="text" name="job"  value="{{ user_dict['job'] }}">
+        <p>
+            <input type=submit name="update" value=Update>
+            <input type=submit name="cancel"  value=Cancel>
+        </p>
+    </form>
+
+
+{% endblock %}

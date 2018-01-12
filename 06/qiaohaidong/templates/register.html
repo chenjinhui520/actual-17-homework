@@ -1,0 +1,24 @@
+{% extends "layout.html" %}
+{% block body %}
+  <h1>注册！</h1>
+
+  <form  method=post>
+      <input type="text" name="username"  placeholder="Username" >
+      <br>
+      <input type=password name="password"  placeholder="Password" >
+      <br>
+      <input type="password" name="retype_password"  placeholder="Retype password" >
+      <br>
+      <input type="text" name="age"  placeholder="Age" >
+      <br>
+      <input type="text" name="job"  placeholder="Job" >
+    <p>
+        {% if name %}
+            <a href={{ url_for('user', username=name) }}>返回</a>
+        {% else %}
+            <a href={{ url_for('index') }}>返回</a>
+        {% endif %}
+        <input type=submit value=注册>
+    </p>
+  </form>
+{% endblock %}
