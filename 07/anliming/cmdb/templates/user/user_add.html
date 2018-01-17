@@ -1,0 +1,45 @@
+{% extends 'public/layout.html' %}
+
+{% block page_header %}
+
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li><a href="/user/list/">用户中心</a></li>
+            <li class="/user/add/">用户添加</li>
+        </ol>
+        <h1>用户中心
+            <small> <a href="/user/add/" class="btn btn-default">用户添加</a></small>
+        </h1>
+    </section>
+{% endblock %}
+
+{% block body %}
+    <section class="content">
+    <div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+    {% if error %}
+    <p style="color:red">{{ error }}</p>
+    {% endif %}
+    <br>
+    <h2 style="color: red">{{ msg }}</h2>
+    <form class="form-group col-md-6 col-md-offset-2 " action="/user/add/" method="post">
+        用户名：<input class="form-control" type="text" name="name">
+        密码：<input class="form-control" type="text" name="passwd">
+        年龄：<input class="form-control" type="text" name="age">
+        职务：<input class="form-control" type="text" name="job">
+        <div class="form-group">
+            <br>
+            <span class=""><a class="col-md-2 btn btn-info" href="/user/list/">返回</a></span>
+            <span class=""><input class="col-md-2 col-md-offset-8 btn btn-info"type="submit" value="提交" ></input></span>
+        </div>
+        {% for msg in get_flashed_messages() %}
+
+        {% endfor %}
+    </form>
+    </div>
+    </div>
+    </section>
+{% endblock %}
+</body>
+</html>

@@ -1,0 +1,40 @@
+{% extends 'public/layout.html' %}
+
+{% block page_header %}
+
+    <section class="content-header">
+        <ol class="breadcrumb">
+            <li><a href="/"><i class="fa fa-dashboard"></i>Dashboard</a></li>
+            <li><a href="/user/list/">用户中心</a></li>
+            <li class="active">用户更新</li>
+        </ol>
+        <h1>用户中心
+            <small style="color: orange;"> 更新用户"{% if _user %} {{_user['username']}}" {% endif %} 的信息</small>
+        </h1>
+    </section>
+{% endblock %}
+
+{% block body %}
+    <br>
+    <section class="content">
+    <div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+    {% if error %}
+    <p style="color:red">{{ error }}</p>
+    {% endif %}
+    <form class="form-group col-md-6 col-md-offset-2 " action="/user/update/" method="post">
+        用户名：<input class="form-control" type="text" name="name" value="{{ _user['username'] }}" disabled >
+        密码：<input class="form-control" type="text" name="passwd"  >
+        年龄：<input class="form-control" type="text" name="age" value="{{ _user['age'] }}">
+        职务：<input class="form-control" type="text" name="job" value="{{ _user['job'] }}">
+        <input type="hidden" name="uid" value="{{ _user['id'] }}">
+        <div class="form-group">
+            <br>
+            <span class=""><a class="col-md-2 btn btn-info" href="/user/list/">返回</a></span>
+            <span class=""><input class="col-md-2 col-md-offset-8 btn btn-info"type="submit" value="提交" ></input></span>
+        </div>
+    </form>
+    </div>
+    </div>
+    </section>
+{% endblock %}
