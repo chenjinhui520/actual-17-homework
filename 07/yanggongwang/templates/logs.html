@@ -1,0 +1,69 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">日志管理</a></li>
+        <li class="active">日志列表</li>
+    </ol>
+    <h1>
+        日志管理
+        <small><a href="/logs/" class="btn btn-sm btn-primary">日志列表</a></small>
+    </h1>
+{% endblock %}
+
+{% block body %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                {% for msg in get_flashed_messages() %}
+                <span>{{ msg }}</span>
+                {% endfor %}
+                欢迎：{{ session.user.username }}
+                    <br>
+                <!--<a href="/logs/?topn=5">TOP5</a>-->
+                <!--<a href="/logs/?topn=15">TOP15</a>-->
+                <!--<a href="/logs/?topn=20">TOP20</a>-->
+                    <div class="center-block">
+                        <form class="form-signin" action="/logs/" method="post">
+                          TopN:<select class="form-control" name="TopN">
+                              <option>10</option>
+                              <option>5</option>
+                              <option>15</option>
+                              <option>20</option>
+                              <option>25</option>
+                            </select>
+                            <input type="submit" class="btn btn-primary block full-width m-b" value="查询"/>
+                        </form>
+                    </div>
+
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">日志条数</th>
+                                <th class="info">IP地址</th>
+                                <th class="danger">URL地址</th>
+                                <th class="info">HTTP响应状态码</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for log in logall_list %}
+                            <tr>
+                                <td>{{ log[4] }}</td>
+                                <td>{{ log[1] }}</td>
+                                <td>{{ log[2] }}</td>
+                                <td>{{ log[3] }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+{% endblock %}
