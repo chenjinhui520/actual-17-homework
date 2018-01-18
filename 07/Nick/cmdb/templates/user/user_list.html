@@ -1,0 +1,106 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+    <li><a href="#">用户中心</a></li>
+    <li class="active">用户信息</li>
+</ol>
+<h1>
+    用户信息
+    <!--<small>管理你的用户</small>-->
+    <small><a href="/user/add/" class="btn btn-sm btn-primary">新增用户</a></small>
+</h1>
+{% endblock %}
+
+{% block css %}
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
+{% endblock%}
+
+{% block body %}
+
+{% for msg in get_flashed_messages() %}
+    <span>{{ msg }}</span>
+{% endfor %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">用户ID</th>
+                                <th class="info">用户名</th>
+                                <th class="danger">密码</th>
+                                <th class="warning">年龄</th>
+                                <th class="info">职务</th>
+                                <th class="danger">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in user_list %}
+                            <tr>
+                                <td>{{user['id']}}</td>
+                                <td>{{user['username']}}</td>
+                                <td>******</td>
+                                <td>{{user['age']}}</td>
+                                <td>{{user['job']}}</td>
+                                <td>
+                                    <a href="/user/update/?uid={{user['id']}}">更新</a>
+                                    <a href="/user/delete/?username={{user['username']}}&uid={{user['id']}}">删除</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+{% endblock %}
+
+{% block js%}
+<!-- DataTables -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script>
+//  $(function () {
+//    $("#example1").DataTable();
+//  });
+
+/*删除用户*/
+$("tbody").on('click','.del',function(){
+    if(confirm("是否确认删除？")){
+        var that = this;
+        var id = $(this).attr('data-id');
+        $.ajax({
+            url:"",
+            type: "DELETE",
+            data: {"id":id},
+            datatype: "json",
+            success: function(res){
+                console.log(res);
+                if (res.code ==0){
+                swal({
+                    title:"success",
+                    text:res['result'],
+                    type:"success",
+                    confirmButtonText:'Good'
+                    },function(){
+                        location.reload()
+                     })
+                }else{
+                    swal("Cancelled", res.errmsg, "error");
+                }
+            }
+        })
+    }  // end confirm
+     return false
+})
+</script>
+{% endblock %}
