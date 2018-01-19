@@ -1,0 +1,62 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">用户中心</a></li>
+        <li class="active">用户信息</li>
+    </ol>
+    <h1>
+        用户信息
+        <small><a href="/user/add/" class="btn btn-sm btn-primary">添加用户</a></small>
+    </h1>
+{% endblock %}
+
+{% block body %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                {% for msg in get_flashed_messages() %}
+                <span>{{ msg }}</span>
+                {% endfor %}
+                欢迎：{{ session.user.username }}
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">用户ID</th>
+                                <th class="info">用户名</th>
+                                <th class="danger">密码</th>
+                                <th class="warning">年龄</th>
+                                <th class="info">职务</th>
+                                <th class="danger">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in user_list %}
+                            <tr>
+                                <td>{{ user['id'] }}</td>
+                                <td>{{ user['username'] }}</td>
+                                <td>******</td>
+                                <!--<td>{{ user.password }}</td>-->
+                                <td>{{ user.get('age') }}</td>
+                                <td>{{ user['job'] }}</td>
+                                <td>
+                                    <a href="/user/update/?uid={{ user['id'] }}" class="btn btn-primary btn-xs">更新</a>
+                                    <a href="/user/delete/?username={{ user['username'] }}&uid={{ user['id'] }}" class="btn btn-danger btn-xs">删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+{% endblock %}
+
+
