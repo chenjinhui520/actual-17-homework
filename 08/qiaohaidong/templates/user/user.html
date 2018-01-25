@@ -1,0 +1,136 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">用户中心</a></li>
+        <li class="active">用户信息</li>
+    </ol>
+    <h1>
+        用户列表
+        <small><a href="/user/add/" class="btn btn-sm btn-primary">添加用户</a></small>
+    </h1>
+{% endblock %}
+
+{% block body %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+
+
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+
+                                <th class="default">用户名</th>
+                                <th class="default">年龄</th>
+                                <th class="default">职务</th>
+                                <th class="default">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for users in user_dict  %}
+                                <tr>
+                                    <td>{{ users[0] }}</td>
+                                    <td>{{ users[1] }}</td>
+                                    <td>{{ users[2] }}</td>
+                                    <td>
+                                        <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#update_passwd" data-username="{{ users[0] }}">修改密码</button>
+                                        <a class="btn btn-default btn-xs" href="/user/update/{{ users[0] }}/">更新</a>
+                                        <a class="btn btn-default btn-xs" href="/delete/{{ users[0] }}/" class="btn btn-danger btn-xs" onclick="return confirm('确定删除吗?')">删除</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<div class="modal fade" id="update_passwd" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">修改密码</h4>
+      </div>
+        <div class="modal-body">
+            <form>
+              <input type="hidden" class="form-control" id="uid">
+              <div class="form-group">
+                <label for="update_name" class="control-label">用户名:</label>
+                <input type="text" class="form-control" id="update_name" disabled>
+              </div>
+              <div class="form-group">
+                <label for="admin_passwd" class="control-label">管理员密码:</label>
+                <input type="password" class="form-control" id="admin_passwd" >
+              </div>
+              <div class="form-group">
+                <label for="new_passwd" class="control-label">新密码:</label>
+                <input type="password" class="form-control" id="new_passwd" >
+              </div>
+              <div class="form-group">
+                <label for="retye_passwd" class="control-label">确认密码:</label>
+                <input type="password" class="form-control" id="retype_passwd" >
+              </div>
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary pull-right" id="submit-passwd">提交</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+{% endblock %}
+
+{% block script %}
+<script>
+
+
+//这里就是绑定事件，这里需要注意的是按钮的data-target和模态框中的id要相同，不然不生效
+//自己看看bootstrap吧
+$('#update_passwd').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  //从按钮那里获得要修改的用户名，jQuery能获取data-***中***的内容
+  var username = button.data('username');
+  //将要修改的用户名添加到对应的框中
+  $('#update_name').val(username);
+
+  //console.log(username);
+    })
+
+//获取提交动作，执行post数据提交
+$('#submit-passwd').on('click',function () {
+    var perams = {};
+    perams['update_name'] = $('#update_name').val();
+    perams['admin_passwd'] = $('#admin_passwd').val();
+    perams['new_passwd'] = $('#new_passwd').val();
+    perams['retype_passwd'] = $('#retype_passwd').val();
+    // console.log(perams);
+    //$.post('/user/change-passwd/',perams, function(data){
+    //    console.log(data)
+    //    },'json')
+    console.log(perams)
+     $.post('/user/change-passwd/',perams, function(res){
+        if (res['is_ok']){
+            alert('用户密码更改成功!');
+            window.location.reload()
+        }else {
+            alert(res['error'])
+        }
+    },'json')
+})
+
+
+</script>
+{% endblock %}
