@@ -1,6 +1,7 @@
 from flask import Flask ,flash ,redirect ,render_template, request, session
 from functools import wraps
-import user
+import userdb as user
+import logdb
 
 
 
@@ -105,7 +106,7 @@ def logout():
 def logs():
 	n = request.args.get('top')
 	n = int(n) if str(n).isdigit() else 10
-	toplist = user.loglist(n)	
+	toplist = logdb.log_read(n)	
 	return render_template('logs.html',toplist=toplist)
 
 

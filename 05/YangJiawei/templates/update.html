@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用户更新</title>
+</head>
+<body>
+	<p style="color: red">{{ get_flashed_messages()[0] }}</p>
+	<form action="/user/update/?username={{name}}" method="POST">
+		密码<input type="text" name="password" value="{{passwd}}">
+		年龄<input type="text" name="age" value="{{age}}">
+		职位<input type="text" name="job" value="{{job}}">
+	<input type="submit" name="更新">
+	</form>
+</body>
+</html>

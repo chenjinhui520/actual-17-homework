@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>用户列表</title>
+</head>
+<body>
+	<a href="/user/signup/">注册新用户</a>
+	<a href="/user/login/">注销</a><br>
+	<a href="/logs/?top=10">日志列表</a>
+	<p style="color: red">{{ get_flashed_messages()[0] }}</p>
+	<table border="2">
+		<thead>
+			<tr>
+				<th>姓名</th>
+				<th>密码</th>
+				<th>年龄</th>
+				<th>职位</th>
+				<th>操作</th>
+			</tr>
+		</thead>
+		{% for user in userlist %}
+		<tbody>
+			<tr>
+				<td>{{ user[1] }}</td>
+				<td>{{ user[2] }}</td>
+				<td>{{ user[4] }}</td>
+				<td>{{ user[3] }}</td>
+				<td>
+					<a href="/user/update/?username={{user[1]}}">更新</a>
+					<a href="/user/delet/?username={{user[1]}}">删除</a>
+				</td>
+			</tr>
+		</tbody>
+		{% endfor %}
+	</table>
+</body>
+</html>
