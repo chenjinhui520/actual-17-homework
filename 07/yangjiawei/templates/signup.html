@@ -1,0 +1,54 @@
+{% extends "public/layout.html" %}
+
+{% block content %}
+<!-- 内容头部信息（页眉） -->
+    <section class="content-header">
+    
+<ol class="breadcrumb">
+    <li><a href="/index/"><i class="fa fa-dashboard"></i> 首页</a></li>
+    <li><a href="#">用户注册</a></li>
+</ol>
+<h1>
+    用户注册
+    <!--<small>管理你的用户</small>-->
+    <small><a href="/user/list/" class="btn btn-sm btn-primary">返回</a></small>
+</h1>
+    </section>
+<body>
+	<div class="box-header with-border">
+        <h3 class="box-title">填写基本信息</h3>
+        <p style="color: red">{{ get_flashed_messages()[0] }}</p>
+    </div>
+	<form action="/user/signup/" method="POST" class="form-horizontal" method="post" id="UserUpdateForm">
+		<div class="form-group">
+            <label for="username" class="col-sm-2 control-label">用户名
+            <span class="red-fonts">*</span></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="username" placeholder="username" name = 'username'>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="age" class="col-sm-2 control-label">年龄
+            <span class="red-fonts">*</span></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="age" placeholder="age" name="age">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="password" class="col-sm-2 control-label">密码
+            <span class="red-fonts">*</span></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="password" placeholder="password" name="password">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="Job" class="col-sm-2 control-label">职务
+            <span class="red-fonts">*</span></label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" id="Job" placeholder="job" name="job">
+            </div>
+        </div>
+        <button type="submit" id="submit_button" class="btn btn-primary pull-right">注册</button>
+	</form>
+</body>
+{% endblock %}
