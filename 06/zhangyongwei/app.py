@@ -46,6 +46,7 @@ def Login():
         return render_template('login.html')
     if user.vilidate_login(username,password):
         session['user'] = {'username':username}
+        print session
         # 跳转到首页
         return redirect('/user/list/')
     else:
@@ -109,7 +110,8 @@ def user_update():
 # 用户登出
 @app.route('/logout/')
 def logout():
-    session.clear()
+    username = request.args.get('username')
+    session.pop(username,None)
     return redirect('/login/')
 
 

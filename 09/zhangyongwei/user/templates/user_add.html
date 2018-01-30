@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>添加用户</title>
+</head>
+<body>
+    {% if error %}
+    <p style="color:red">{{ error }}</p>
+    {% endif %}
+    <form action="/user/add/" method="post" enctype=multipart/form-data>
+        用户名：<input type="text" name="name">
+        密码：<input type="text" name="passwd">
+        年龄：<input type="text" name="age">
+        职务：<input type="text" name="job">
+        文件：
+        <input type="file" name="file">
+        <input type="submit" value="提交">
+        {% for msg in get_flashed_messages() %}
+        <h2>{{ msg }}</h2>
+        {% endfor %}
+    </form>
+
+</body>
+</html>

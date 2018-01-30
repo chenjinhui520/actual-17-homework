@@ -1,0 +1,5 @@
+[0115/100921:ERROR:renderer_main.cc(203)] Running without renderer sandbox
+[0115/100922:INFO:CONSOLE(6)] "The key "viewport-fit" is not recognized and ignored.", source: http://mp.weixin.qq.com/s?__biz=MzA4MjkxMzMyNg==&mid=2654071217&idx=1&sn=43d420f1752c8707207aa841276df249&chksm=843b38f0b34cb1e6405614e457a104c0b8beee69b38f817f95a46cf00817f2f2cebd8b02f5b8&mpshare=1&scene=23&srcid=0112zurZjEhduNQOGY5vlvLg#rd (6)
+[0115/100923:ERROR:child_discardable_shared_memory_manager.cc(266)] size: 4194304
+[0115/100923:INFO:CONSOLE(617)] "进入index.js init", source: http://res.wx.qq.com/mmbizwap/zh_CN/htmledition/js/biz_wap/jsapi/core3b0568.js,/mmbizwap/zh_CN/htmledition/js/appmsg/index3b1748.js (617)
+[0115/100923:INFO:CONSOLE(1207)] "[moon] load js complete, url num : 2, total mod count : 115, hit num: 97, use time : 150ms", source: http://mp.weixin.qq.com/s?__biz=MzA4MjkxMzMyNg==&mid=2654071217&idx=1&sn=43d420f1752c8707207aa841276df249&chksm=843b38f0b34cb1e6405614e457a104c0b8beee69b38f817f95a46cf00817f2f2cebd8b02f5b8&mpshare=1&scene=23&srcid=0112zurZjEhduNQOGY5vlvLg (1207)
