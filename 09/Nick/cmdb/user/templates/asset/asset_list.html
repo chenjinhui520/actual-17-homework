@@ -1,0 +1,119 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+    <li><a href="#">资产中心</a></li>
+    <li class="active">资产信息</li>
+</ol>
+<h1>
+    资产信息
+    <!--<small>管理你的用户</small>-->
+    <!--<small><a href="/user/add/" class="btn btn-sm btn-primary">新增资产</a></small>-->
+    <!--<button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#addAsset">添加资产</button>-->
+    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#dialog" data-title="新建资产" data-btn-txt="添加" data-url="/asset/add/">新建资产</button>
+</h1>
+{% endblock %}
+
+{% block css %}
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
+<link href="/static/plugins/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">
+<link href="/static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
+<link href="/static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+{% endblock%}
+
+{% block body %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">资产ID</th>
+                                <th class="info">资产号</th>
+                                <th class="danger">IP地址</th>
+                                <th class="warning">主机名</th>
+                                <th class="info">机房</th>
+                                <th class="info">采购时间(保修时间)</th>
+                                <th class="info">供应商(型号)</th>
+                                <th class="info">使用人(业务)</th>
+                                <th class="info">CPU/内存/磁盘</th>
+                                <th class="info">操作系统</th>
+                                <th class="info">状态</th>
+                                <th class="danger">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for asset in asset_list %}
+                            <tr>
+                                <td>{{asset['id']}}</td>
+                                <td>{{asset['sn']}}</td>
+                                <td>{{asset['ip']}}</td>
+                                <td>{{asset['hostname']}}</td>
+                                <td>{{asset['idc_id']}}</td>
+                                <td>{{asset['purchase_date']}}({{asset['warranty']}})</td>
+                                <td>{{asset['vendor']}}({{asset['model']}})</td>
+                                <td>{{asset['admin']}}({{asset['business']}})</td>
+                                <td>
+                                    <ul>
+                                        <li>CPU{{asset['cpu']}}核</li>
+                                        <li>内存{{asset['ram']}}G</li>
+                                        <li>硬盘{{asset['disk']}}G</li>
+                                    </ul>
+                                </td>
+                                <td>{{asset['os']}}</td>
+                                <!--<td>{{asset['status']}}</td>-->
+                                <td>{% if asset.status == 0 %} 正常 {% endif %}</td>
+                                <td>
+                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#dialog" data-title="更新资产" data-btn-txt="更新" data-url="/asset/update/?aid={{asset['id']}}">更新资产</button>
+                                    <a href="/asset/delete/?aid={{asset['id']}}" onclick="return confirm('确定删除吗？')">删除</a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+{% endblock %}
+
+{% block js%}
+<!-- DataTables -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/static/plugins/bootstrap-slider/js/bootstrap-slider.min.js" ></script>
+<script src="/static/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" ></script>
+<script src="/static/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" ></script>
+<script src="/static/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" ></script>
+<script>
+
+
+jQuery(document).ready(function () {
+        //处理dialog页面提交后的请求
+    $('.btn-form-submit').on('click', function () {
+        var _from = $('#dialog').find('form');
+        var _url = _from.attr('action');
+        var params = _from.serialize();
+//        console.log(_url);
+//        console.log(params);
+//        console.log(_from.serializeArray());
+        $.post(_url,params,function(data){
+            if (data['is_ok']){
+                alert(data['msg']);
+                window.location.reload();
+            }else{
+                alert(data['error']);
+            }
+        },'json');
+    });
+});
+</script>
+{% endblock %}
