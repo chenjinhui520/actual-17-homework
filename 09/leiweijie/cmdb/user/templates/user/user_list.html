@@ -1,0 +1,193 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">用户中心</a></li>
+        <li class="active">用户信息</li>
+    </ol>
+    <h1>
+        用户信息
+        <small><a href="/user/add/" class="btn btn-sm btn-primary">添加用户</a></small>
+    </h1>
+{% endblock %}
+
+{% block body %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                {% for msg in get_flashed_messages() %}
+                <span>{{ msg }}</span>
+                {% endfor %}
+                欢迎：{{ session.user.username }}
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">用户ID</th>
+                                <th class="info">用户名</th>
+                                <th class="danger">密码</th>
+                                <th class="warning">年龄</th>
+                                <th class="info">职务</th>
+                                <th class="danger">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in user_list %}
+                            <tr>
+                                <td>{{ user['id'] }}</td>
+                                <td>{{ user['username'] }}</td>
+                                <!--<td>{{ user.password }}</td>-->
+                                <td>******</td>
+                                <td>{{ user.get('age') }}</td>
+                                <td>{{ user['job'] }}</td>
+                                <td>
+                                    <!--<a href="/user/update/?uid={{ user['id'] }}" class="btn btn-primary btn-xs">更新</a>-->
+                                    <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#update_userinfo" data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}">更新</button>
+                                    <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#update_passwd" data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}">修改密码</button>
+                                    <a href="/user/delete/?username={{ user['username'] }}&uid={{ user['id'] }}" class="btn btn-danger btn-xs" onclick="return confirm('确定删除吗？')">删除</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+<div class="modal fade" id="update_passwd" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">修改密码</h4>
+      </div>
+        <div class="modal-body">
+            <form>
+              <input type="hidden" class="form-control" id="uid">
+              <div class="form-group">
+                <label for="update-name" class="control-label">用户名:</label>
+                <input type="text" class="form-control" id="update-name" disabled>
+              </div>
+              <div class="form-group">
+                <label for="manager-passwd" class="control-label">管理员密码:</label>
+                <input type="password" class="form-control" id="manager-passwd" >
+              </div>
+              <div class="form-group">
+                <label for="user-passwd" class="control-label">用户密码:</label>
+                <input type="password" class="form-control" id="user-passwd" >
+              </div>
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="submit-passwd">提交</button>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+
+<div class="modal fade" id="update_userinfo" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">更新用户信息</h4>
+      </div>
+        <div class="modal-body">
+            <form>
+              <input type="hidden" class="form-control" id="userinfo-id">
+              <div class="form-group">
+                <label for="update-name" class="control-label">用户名:</label>
+                <input type="text" class="form-control" id="userinfo-name" disabled>
+              </div>
+              <div class="form-group">
+                <label for="userinfo-age" class="control-label">年龄:</label>
+                <input type="text" class="form-control" id="userinfo-age" >
+              </div>
+              <div class="form-group">
+                <label for="userinfo-job" class="control-label">职务:</label>
+                <input type="text" class="form-control" id="userinfo-job" >
+              </div>
+            </form>
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="userinfo-submit">提交</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+$('#update_passwd').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var userid = button.data('userid');
+  var username = button.data('username');
+  $('#uid').val(userid);
+  $('#update-name').val(username);
+    console.log(userid,username);
+    });
+
+//获取“修改密码”提交动作，执行POST数据提交操作
+$('#submit-passwd').on('click',function () {
+    var perams = {};
+    perams['userid'] = $('#uid').val();
+    perams['manager-passwd'] = $('#manager-passwd').val();
+    perams['user-passwd'] = $('#user-passwd').val();
+    // console.log(perams);
+    $.post('/user/change-passwd/',perams, function(res){
+        if (res['is_ok']){
+            alert('用户密码更改成功!');
+            window.location.reload()
+        }else {
+            alert(res['error'])
+        }
+    },'json')
+});
+
+
+// 修改用户信息，信息回显
+$('#update_userinfo').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var userid = button.data('userid');
+  var username = button.data('username');
+  $('#userinfo-id').val(userid);
+  $('#userinfo-name').val(username);
+  $.getJSON('/user/update/',{'uid':userid},function (res) {
+      $('#userinfo-age').val(res['age']);
+      $('#userinfo-job').val(res.job);
+  })
+});
+
+
+
+//获取“更新用户”提交动作，执行POST数据提交操作
+$('#userinfo-submit').on('click',function () {
+    var perams = {};
+    perams['uid'] = $('#userinfo-id').val();
+    perams['age'] = $('#userinfo-age').val();
+    perams['job'] = $('#userinfo-job').val();
+    console.log(perams);
+    $.post('/user/update/',perams, function(res){
+        if (res['is_ok']){
+            alert('用户信息更改成功!');
+            window.location.reload()
+        }else {
+            alert(res['error']);
+        }
+    },'json')
+});
+
+</script>
+{% endblock %}
