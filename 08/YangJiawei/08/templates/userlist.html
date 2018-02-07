@@ -1,0 +1,263 @@
+{% extends "public/layout.html" %}
+
+{% block content %}
+<!-- 内容头部信息（页眉） -->
+    <section class="content-header">
+    
+<ol class="breadcrumb">
+    <li><a href="/index/"><i class="fa fa-dashboard"></i> 首页</a></li>
+    <li><a href="#">用户中心</a></li>
+</ol>
+<h2>
+    用户信息
+    <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#add_userinfo">新增用户</button>
+</h2>
+<p style="color: red">{{ get_flashed_messages()[0] }}</p>
+
+    </section>
+
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                    aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+								<th>ID</th>
+								<th>姓名</th>
+								<th>密码</th>
+								<th>年龄</th>
+								<th>职位</th>
+								<th>操作</th>
+							</tr>
+						</thead>
+						{% for user in userlist %}
+						<tbody>
+							<tr>
+								<td>{{ user[0] }}</td>
+								<td>{{ user[1] }}</td>
+								<td>{{ user[2] }}</td>
+								<td>{{ user[4] }}</td>
+								<td>{{ user[3] }}</td>
+								<td>
+								<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#update_info" data-username="{{ user[1] }}" >更新</button>
+
+								<button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#update_passwd" data-username="{{ user[1] }}">修改密码</button>
+
+								<a href="/user/delet/?username={{user[1]}}" class="btn btn-xs btn-primary" onclick="return confirm('确定删除吗？')">删除</a>
+								</td>
+							</tr>
+						</tbody>
+						{% endfor %}
+					</table>
+					</div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+    <!-- 密码更新 -->
+    <div class="modal fade" id="update_passwd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">密码更改</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">用户名</label>
+	            <input type="text" class="form-control" id="username" disabled>
+	          </div>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">旧密码</label>
+	            <input type="text" class="form-control" id="old_passwd">
+	          </div>
+	          <div class="form-group">
+	            <label for="message-text" class="control-label">新密码</label>
+	            <input type="text" class="form-control" id="new_passwd">
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="submit_passwd">提交</button>
+	      </div>
+	    </div>
+	  </div>
+	 </div>
+
+	<!-- 用户信息更新 -->
+    <div class="modal fade" id="update_info" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">用户信息更新</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">用户名</label>
+	            <input type="text" class="form-control" id="name" disabled>
+	          </div>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">年龄</label>
+	            <input type="text" class="form-control" id="age">
+	          </div>
+	          <div class="form-group">
+	            <label for="message-text" class="control-label">职务</label>
+	            <input type="text" class="form-control" id="job">
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="submit_info">提交</button>
+	      </div>
+	    </div>
+	  </div>
+	 </div>
+
+
+
+	 <!-- 增加新用户 -->
+    <div class="modal fade" id="add_userinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="exampleModalLabel">新增用户</h4>
+	      </div>
+	      <div class="modal-body">
+	        <form>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">用户名</label>
+	            <input type="text" class="form-control" id="newuser">
+	          </div>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">密码</label>
+	            <input type="text" class="form-control" id="passwd">
+	          </div>
+	          <div class="form-group">
+	            <label for="recipient-name" class="control-label">年龄</label>
+	            <input type="text" class="form-control" id="newage">
+	          </div>
+	          <div class="form-group">
+	            <label for="message-text" class="control-label">职务</label>
+	            <input type="text" class="form-control" id="newjob">
+	          </div>
+	        </form>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+	        <button type="button" class="btn btn-primary" id="submit_newinfo">提交</button>
+	      </div>
+	    </div>
+	  </div>
+	 </div>
+{% endblock %}
+
+
+
+
+
+
+
+{% block script %}
+<script type="text/javascript">
+//更新密码请求
+$('#update_passwd').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var username = button.data('username'); 
+  $('#username').val(username);
+  console.log(username);
+})
+
+
+//修改密码提交
+$('#submit_passwd').on('click',function(event){
+	perams = {};
+	perams['username'] = $('#username').val();
+	perams['old_passwd'] = $('#old_passwd').val();
+	perams['new_passwd'] = $('#new_passwd').val();
+	console.log(perams);
+	$.post('/user/update_passwd/',perams,function(data){
+		console.log(data);
+		alert(data['error'])
+		window.location.reload()
+	},
+		'json')
+})
+
+//////////////////////////////////////////////////////////
+//更新用户请求
+$('#update_info').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var username = button.data('username'); 
+  $('#name').val(username);
+  console.log(username);
+})
+
+
+//用户信息修改提交
+$('#submit_info').on('click',function(event){
+	perams = {};
+	perams['name'] = $('#name').val();
+	perams['age'] = $('#age').val();
+	perams['job'] = $('#job').val();
+	console.log(perams);
+	$.post('/user/update_userinfo/',perams,function(data){
+		console.log(data);
+		alert(data['error'])
+		window.location.reload()
+	},
+		'json')
+})
+
+
+/////////////////////////////////////////////////////////
+
+//新增用户请求
+$('#add_userinfo').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  console.log('OK');
+})
+
+
+//新用户信息修改提交
+$('#submit_newinfo').on('click',function(event){
+	perams = {};
+	perams['newuser'] = $('#newuser').val();
+	perams['newage'] = $('#newage').val();
+	perams['newjob'] = $('#newjob').val();
+	perams['passwd'] = $('#passwd').val();
+	console.log(perams);
+	$.post('/user/add_userinfo/',perams,function(data){
+		console.log(data);
+		alert(data['error'])
+		window.location.reload()
+	},
+		'json')
+})
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+{% endblock %}
+
+
+

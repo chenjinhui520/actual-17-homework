@@ -4,9 +4,9 @@
 
 USER_FILE = 'user.json'
 
-MYSQL_HOST = 'localhost'
-MYSQL_PORT = 3306
-MYSQL_USER = 'root'
-MYSQL_PASSWD = '123456'
-MYSQL_DB = 'nick'
-MYSQL_CHARSET = 'utf8'
+MYSQL_HOST='localhost'
+MYSQL_PORT=3306
+MYSQL_USER='root'
+MYSQL_PASSWD=''
+MYSQL_DB='Jimmy'
+MYSQL_CHARSET='utf8'

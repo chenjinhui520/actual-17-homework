@@ -1,0 +1,58 @@
+{% extends "public/layout.html" %}
+
+{% block content %}
+<!-- 内容头部信息（页眉） -->
+    <h1>日志信息</h1>
+    	<form class="form-inline" action="/logs/" method="post" enctype="multipart/form-data">
+      <div class="form-group " >
+        <label for="topn">请输入查询行数：</label>
+        <input type="text" name="topn" class="form-control" id="topn" placeholder="默认输出10行">
+      </div>
+      <button type="submit" class="btn btn-default">查询</button>
+      <div class="form-group">
+        <label for="logs">请选择上传日志：</label>
+        <input type="file" name="files" class="form-control" id="logs">
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-default">上传</button>
+      </div>
+    </form>
+    <p style="color: red">{{ get_flashed_messages()[0] }}</p>
+    <!--<small>管理你的用户</small>-->
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="example1_info">
+                        <thead>
+							<tr>
+								<td>ID</td>
+								<td>IP</td>
+								<td>URL</td>
+								<td>Status</td>
+								<td>Count</td>
+							</tr>
+						</thead>
+						<tbody>
+							{% for log in toplist %}
+							<tr>
+								<td>{{log[0]}}</td>
+								<td>{{log[1]}}</td>
+								<td>{{log[2]}}</td>
+								<td>{{log[3]}}</td>
+								<td>{{log[4]}}</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+					</div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+{% endblock %}
+
+
+
