@@ -1,0 +1,362 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+    <li><a href="#">用户中心</a></li>
+    <li class="active">用户信息</li>
+</ol>
+<h1>
+    用户信息
+    <!--<small>管理你的用户</small>-->
+    <!--<small><a href="/user/add/" class="btn btn-sm btn-primary">新增用户</a></small>-->
+    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#adduser">添加用户</button>
+</h1>
+{% endblock %}
+
+{% block css %}
+<!-- DataTables -->
+<link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
+<link rel="stylesheet" href="/static/plugins/bootstrapvalidator-0.4.5/dist/css/bootstrapValidator.min.css">
+<style type = "text/css">
+    .Validform_right{color:green}
+    .Validform_wrong{color:red}
+</style>
+{% endblock%}
+
+{% block body %}
+
+{% for msg in get_flashed_messages() %}
+    <span>{{ msg }}</span>
+{% endfor %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">用户ID</th>
+                                <th class="info">用户名</th>
+                                <th class="danger">密码</th>
+                                <th class="warning">年龄</th>
+                                <th class="info">职务</th>
+                                <th class="danger">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {% for user in user_list %}
+                            <tr>
+                                <td>{{user['id']}}</td>
+                                <td>{{user['username']}}</td>
+                                <td>******</td>
+                                <td>{{user['age']}}</td>
+                                <td>{{user['job']}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#update-userinfo" data-userid="{{ user['id']}}" data-name="{{ user['username']}}">更新</button>
+                                    <button type="button" class="btn btn-xs btn-danger btn-delete" data-text="{{user['username']}}" data-url="/user/delete/?username={{user['username']}}&uid={{user['id']}}">删除</button>
+                                    <button type="button" class="btn btn-xs btn-primary" data-toggle="modal" data-target="#update_passwd" data-userid="{{user['id']}}" data-name="{{user['username']}}">修改密码</button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+<!--修改密码模态框-->
+<div class="modal fade" id="update_passwd" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">修改密码</h4>
+      </div>
+      <div class="modal-body">
+        <form >
+            <input type="hidden" name="passwd-userid" id="passwd-userid">
+          <div class="form-group">
+            <label for="passwd-name" class="control-label">用户名</label>
+            <input type="text" class="form-control" id="passwd-name" readonly>
+          </div>
+          <div class="form-group">
+            <label for="manage-passwd" class="control-label">管理员密码</label>
+            <input type="password" class="form-control" name="manage-passwd" id="manage-passwd">
+          </div>
+          <div class="form-group">
+            <label for="user-passwd" class="control-label">用户密码</label>
+            <input type="password" class="form-control" name="user-passwd" id="user-passwd">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary" id="submit-passwd">更新密码</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--添加用户信息的dialog页面-->
+<div class="modal fade" id="adduser" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog modal-sm" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">添加用户</h4>
+      </div>
+      <div class="modal-body">
+        <form id="UserAddForm">
+          <div class="form-group">
+            <label for="username" class="control-label">用户名:</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="用户名" autofocus datatype="s2-15" errormsg="用户名范围在2~15个字符之间！">
+          </div>
+          <div class="form-group">
+            <label for="password" class="control-label">密码:</label>
+            <input type="password" class="form-control" name="password" id="password" placeholder="密码(不少于6位)" datatype="*6-15" errormsg="密码范围在6~15位之间！">
+          </div>
+          <div class="form-group">
+            <label for="age" class="control-label">年龄:</label>
+            <input type="text" class="form-control" id="age" placeholder="必须是0到100的整数" datatype="n1-3" errormsg="必须是1到100的整数">
+          </div>
+          <div class="form-group">
+            <label for="job" class="control-label">职务:</label>
+            <input type="text" class="form-control" id="job" placeholder="职务" datatype="s3-10" errormsg="职务必须在3~10个字符之间！">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="adduser-commit">添加</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--更新用户信息的dialog页面-->
+<div class="modal fade" id="update-userinfo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">更新信息</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <input type="hidden" id="userinfo-id"/>
+          <div class="form-group">
+            <label for="userinfo-username" class="control-label">用户名:</label>
+            <input type="text" class="form-control" id="userinfo-username" readonly="readonly">
+          </div>
+          <div class="form-group">
+            <label for="userinfo-age" class="control-label">年龄:</label>
+            <input type="text" class="form-control" id="userinfo-age">
+          </div>
+          <div class="form-group">
+            <label for="userinfo-job" class="control-label">职务:</label>
+            <input type="text" class="form-control" id="userinfo-job">
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+        <button type="button" class="btn btn-primary" id="userinfo-commit">更新</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block js%}
+<!-- DataTables -->
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/static/plugins/bootstrapvalidator-0.4.5/dist/js/bootstrapValidator.min.js"></script>
+<script src="/static/js/Validform_v5.3.2_min.js"></script>
+<script>
+  $(function () {
+    $("#example1").DataTable();
+  });
+
+
+jQuery(document).ready(function () {
+    //更新用户密码
+    $('#update_passwd').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var userid = button.data('userid');
+      var username = button.data('name');
+      $('#passwd-userid').val(userid);
+      $('#passwd-name').val(username);
+    });
+    //给模态框的提交按钮绑定事件
+    $('#submit-passwd').on('click',function () {
+        var params = {};
+        params['userid'] = $('#passwd-userid').val();
+        params['manage_passwd'] = $('#manage-passwd').val();
+        params['user_passwd'] = $('#user-passwd').val();
+        $.post('/user/charge-passwd/',params,function (data) {
+            if (data['is_ok']){
+                swal({
+                    title:"success",
+                    text:data['msg'],
+                    type:"success",
+                    confirmButtonText:'Good'
+                    },function(){
+                        location.reload()
+                 });
+            }else{
+                swal( '出错啦！', data['error'], "error");
+            }
+        },"json");
+    });
+
+    //添加用户--处理dialog页面提交后的请求
+    $('#adduser-commit').on('click', function () {
+//        // 第一步：获取from表单对象
+//        var _from = $('#adduser').find('form');
+//        var bootstrapValidator = $(_from).data('bootstrapValidator');
+//        // 第二步：触发验证
+//        bootstrapValidator.validate();
+//        //第三步：阻断提交，isValid 等于true后验证通过，方可post提交；
+//        if (!bootstrapValidator.isValid()) {return;}
+
+        // check获取验证结果：true or false
+        var check = $("#UserAddForm").Validform().check();
+        if (!check) {return;}
+        //继续获取表单数据等。
+        var params = {};
+        params['username'] = $('#username').val();
+        params['password'] = $('#password').val();
+        params['age'] = $('#age').val();
+        params['job'] = $('#job').val();
+        $.post('/user/add/',params,function(data){
+            if (data['is_ok']){
+                swal({
+                    title:"success",
+                    text:'用户添加成功！',
+                    type:"success",
+                    confirmButtonText:'Good'
+                    },function(){
+                        location.reload()
+                 });
+            }else{
+                swal( '出错啦！', data['error'], "error");
+            }
+        },'json');
+    });
+
+    //更新用户--获取用户信息并将值填写到dialog页面
+    $('#update-userinfo').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget);
+        var userid = button.data('userid');
+        var username = button.data('name');
+        $('#userinfo-id').val(userid);
+        $('#userinfo-username').val(username);
+        $.getJSON("/user/update/",{"uid": userid},function(res){
+            $('#userinfo-age').val(res['age']);
+            $('#userinfo-job').val(res.job);
+        });
+    });
+    //更新用户--处理dialog页面提交后的请求
+    $('#userinfo-commit').on('click', function () {
+        var params = {};
+        params['uid'] = $('#userinfo-id').val();
+        params['age'] = $('#userinfo-age').val();
+        params['job'] = $('#userinfo-job').val();
+        $.post('/user/update/',params,function(data){
+            console.log(data);
+            if (data['is_ok']){
+                swal({
+                    title:"success",
+                    text:'用户更新成功！',
+                    type:"success",
+                    confirmButtonText:'Good'
+                    },function(){
+                        location.reload()
+                 });
+            }else{
+                swal( '出错啦！', data['error'], "error");
+            }
+        },'json');
+    });
+
+    //删除用户提示
+    $('.btn-delete').on('click',function () {
+        var that = this;
+        var text = $(that).data('text');
+        var  url= $(that).data('url');
+        swal({
+          title: "确定删除"+text+"吗？",
+          text: "删除后将无法恢复！",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm){
+          if (isConfirm) {
+              window.location.replace(url);
+          }
+        });
+    });
+
+//    //添加用户表单前端验证规则
+//    $('#UserAddForm').bootstrapValidator({
+//        message: 'This value is not valid',
+//        feedbackIcons: {/*输入框不同状态，显示图片的样式*/
+//            valid: 'glyphicon glyphicon-ok',
+//            invalid: 'glyphicon glyphicon-remove',
+//            validating: 'glyphicon glyphicon-refresh'
+//        },
+//        fields: {/*验证*/
+//            username: {/*键名username和input name值对应*/
+//                message: '请输入用户名',
+//                validators: {
+//                    notEmpty: {/*非空提示*/
+//                        message: '用户名不能为空'
+//                    },
+//                    different: {
+//                        field: 'password',
+//                        message: '用户名和密码不能相同'
+//                    }/*最后一个没有逗号*/
+//                }
+//            },
+//            password: {
+//                validators: {
+//                    notEmpty: {
+//                        message: '密码不能为空'
+//                    },
+//                    stringLength: {/*长度提示*/
+//                        min: 6,
+//                        max: 64,
+//                        message: '密码最小为6个字符，最大为64个字符'
+//                    },
+//                    different: {
+//                        field: 'username',
+//                        message: '密码不能和用户名相同'
+//                    }/*最后一个没有逗号*/
+//                }
+//            }
+//        }
+//    });
+
+    $(function(){
+       $("#UserAddForm").Validform({
+               tiptype:3
+         });
+    })
+
+});
+</script>
+{% endblock %}
